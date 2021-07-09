@@ -1,0 +1,3 @@
+[submodule "davis-interactive-gnn-annot-training"]
+	path = davis-interactive-gnn-annot-training
+	url = https://github.com/vvarga90/davis-interactive-gnn-annot-training.git
