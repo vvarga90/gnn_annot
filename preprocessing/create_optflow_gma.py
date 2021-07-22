@@ -8,8 +8,8 @@
 #   @author Viktor Varga
 #
 
-GMA_OPTICAL_FLOW_CORE_FOLDER_PATH = '/home/vavsaai/git/GMA/core/'   # e.g. /home/my_Home/git/GMA/core/
-GMA_MODEL_PATH = '/home/vavsaai/git/GMA/checkpoints/gma-sintel.pth'
+GMA_OPTICAL_FLOW_CORE_FOLDER_PATH = '/home/my_home/git/GMA/core/'   # e.g. /home/my_home/git/GMA/core/
+GMA_MODEL_PATH = '/home/my_home/git/GMA/checkpoints/gma-sintel.pth'
 
 import sys
 sys.path.append(GMA_OPTICAL_FLOW_CORE_FOLDER_PATH)
