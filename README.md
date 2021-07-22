@@ -2,7 +2,7 @@
 
 Publicly released implementation of the GNN based Interactive VOS method described in the IJCNN 2021 paper "Fast Interactive Video Object Segmentation with Graph Neural Networks", <https://arxiv.org/abs/2103.03821>
 
-Performance of the method: 0.759 J AUC, 0.767 J @ 60sec on the DAVIS 2017 validation set.
+Performance of the method: 0.759 J AUC, 0.767 J @ 60sec, 0.782 J&F AUC, 0.790 J&F @ 60sec on the DAVIS 2017 validation set.
 
 (These results were achieved with GMA (2021) optical flow estimation. For the evaluations published in the paper FlowNet2 (2017) was used. Performance with FlowNet2: 0.741 J AUC, 0.749 J @ 60sec on the DAVIS 2017 validation set.)
 
