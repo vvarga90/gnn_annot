@@ -168,7 +168,7 @@ def get_optflow_occlusion_data(vidname):
         flow_fw, flow_bw: ndarray(n_ims, sy, sx, 2:[dy, dx]) of fl16
         occl_fw, occl_bw: ndarray(n_ims, sy, sx) of bool_
     '''
-    flows_h5_path = os.path.join(DATA_FOLDER_OPTFLOWS, 'flownet2_' + vidname + '.h5')
+    flows_h5_path = os.path.join(DATA_FOLDER_OPTFLOWS, 'optflow_gma_' + vidname + '.h5')
     h5f = h5py.File(flows_h5_path, 'r')
     flow_fw = h5f['flows'][:].astype(np.float16)
     flow_bw = h5f['inv_flows'][:].astype(np.float16)

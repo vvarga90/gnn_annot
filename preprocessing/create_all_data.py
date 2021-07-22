@@ -8,6 +8,7 @@
 import sys
 sys.path.append('..')
 
+from datasets import DAVIS17
 import os
 import cv2
 import h5py
@@ -15,7 +16,7 @@ import numpy as np
 import create_annots as CreateAnnots
 import create_fmaps as CreateFMaps
 import create_segmentation as CreateSeg
-from datasets import DAVIS17
+import create_optflow_gma as CreateOptFlowGMA
 
 def load_imgs_for_video(base_folder_path, vidname):
     '''
@@ -39,22 +40,6 @@ def load_imgs_for_video(base_folder_path, vidname):
     assert ims.dtype == np.uint8
     return ims
 
-def _temp_load_optflow_for_video(base_folder_path, vidname):
-    '''
-    Temporary: loads optical flow archives created by FlowNet v2 runner script.
-    Parameters:
-        base_folder_path: str
-        vidname: str
-    Returns:
-        flow_fw, flow_bw: ndarray(n_frames-1, sy, sx, 2:[dy, dx]) of fl16
-    '''
-    flows_h5_path = os.path.join(base_folder_path, 'flownet2_' + vidname + '.h5')
-    h5f = h5py.File(flows_h5_path, 'r')
-    flow_fw = h5f['flows'][:].astype(np.float16, copy=False)
-    flow_bw = h5f['inv_flows'][:].astype(np.float16, copy=False)
-    h5f.close()
-    return flow_fw, flow_bw
-
 def run(vidnames, imgs_folder, annot_folder, optflow_out_folder, fmap_out_folder, seg_out_folder, annot_out_folder):
     '''
     Parameters:
@@ -71,14 +56,9 @@ def run(vidnames, imgs_folder, annot_folder, optflow_out_folder, fmap_out_folder
     ims_dict = {vidname: load_imgs_for_video(imgs_folder, vidname) for vidname in vidnames}
 
     # create optflow data
-    #   TODO optical flow data is pregenerated and only loaded here right now, later run FlowNet v2 from here
     #   TODO might not be worth to use compression in hdf5 here
-    print("Preprocessing: loading pregenerated optical flow data...")
-    of_fw_dict, of_bw_dict = {}, {}
-    for vidname in vidnames:
-        of_fw, of_bw = _temp_load_optflow_for_video(optflow_out_folder, vidname)
-        of_fw_dict[vidname] = of_fw
-        of_bw_dict[vidname] = of_bw
+    print("Preprocessing: running optical flow and occlusion estimation...")
+    of_fw_dict, of_bw_dict, occl_fw_dict, occl_bw_dict = CreateOptFlowGMA.run(ims_dict, optflow_out_folder, 'optflow_gma_')
 
     # create feature map data
     print("Preprocessing: creating feature maps...")
